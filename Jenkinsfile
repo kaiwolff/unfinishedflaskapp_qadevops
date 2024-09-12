@@ -3,12 +3,12 @@ pipeline{
     stages{
         stage('Install Dependencies'){
             steps{
-                sh 'pip3 install -r requirements.txt'
+                sh 'sudo docker build . -t kaiwolff/qa_testingflaskapp:latest'
             }
         }
         stage('Start app'){
             steps{
-                sh 'python3 app.py'
+                sh 'sudo docker run -dp 5000:5000 --name qa_flaskapptest kaiwolff/qa_testingflaskapp'
             }
         }
         }
