@@ -1,14 +1,13 @@
 pipeline {
     agent any
     stages {
-        stage('Build Image') {
+        stage('Build Docker Image') {
             steps {
-                sh 'sudo docker build -t theearlofgray/flaskappexample .'
+                sh 'sudo docker build . -t kaiwolff/qa_testingflaskapp'
             }
         }
-        stage('Deploy container') {
-            steps {
-                sh 'sudo docker run -d -p 5000:5000 --name flaskapp theearlofgray/flaskappexample'
+        stage('Start app') {
+            sh 'sudo docker run -dp 5000:5000 --name flaskapp_test kaiwolff/qa_testingflaskapp'
             }
         }
     }
