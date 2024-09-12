@@ -1,14 +1,18 @@
 pipeline{
     agent any
+    environment{
+        DOCKER_LOGIN=credentials('DOCKER_LOGIN')
+    }
     stages{
-        stage('Install Dependencies'){
+        stage('Deploy Image'){
             steps{
-                sh 'sudo docker build . -t kaiwolff/qa_testingflaskapp:latest'
+                sh 'sudo docker-compose up --build -d'
             }
         }
-        stage('Start app'){
+        stage('Push Image'){
             steps{
-                sh 'sudo docker run -dp 5000:5000 --name qa_flaskapptest kaiwolff/qa_testingflaskapp'
+                sh 'sudo docker login -u ${DOCKER_LOGIN_USR} -p ${DOCKER_LOGIN_PSW}'
+                sh 'sudo docker-compose push'
             }
         }
         }
